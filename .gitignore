@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+backend/.venv/
+backend/__pycache__/
+backend/**/*.pyc
+backend/padhaku.db
+backend/*.db
+.DS_Store
+Thumbs.db

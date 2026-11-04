@@ -17,7 +17,7 @@ Students keep lecture notes, PDFs, revision tasks, and study-group conversations
 
 > **Product direction:** Padhaku is an AI-powered collaborative learning workspace that helps students make their own course material searchable, understandable, and easier to revise.
 
-The project is under active development. The current repository is a **feature-rich prototype**: it includes a polished Next.js interface, interactive demo modules, sample learning data, an early AI route, a FastAPI scaffold, and a proposed PostgreSQL schema. Some screens currently demonstrate the intended experience with local or seeded data. Authentication, document ingestion/RAG, persistence, encrypted group chat, and live video still need end-to-end implementation before they can be described as production-ready.
+The project is under active development. The core learning path now uses a FastAPI service with persisted user accounts, private notes, PDF text extraction, and source-page retrieval. The surrounding interface still contains prototype modules; see [implementation status](docs/IMPLEMENTATION-STATUS.md) for exact boundaries.
 
 ## What you can explore
 
@@ -51,9 +51,10 @@ Continue revision alone or with a study group
 | Web application | Next.js 15, React 19, TypeScript |
 | UI | Tailwind CSS 4, custom components |
 | Backend scaffold | Python 3, FastAPI |
-| Data target | PostgreSQL; pgvector for embeddings where supported |
-| AI integration | Server-side provider API (provider/model selection must be configured) |
-| Privacy concepts | Browser Web Crypto and local search prototype; production E2EE is not yet implemented |
+| Data | SQLite for local setup; PostgreSQL through `DATABASE_URL` for deployment |
+| Document Q&A | Page text extraction with per-user lexical retrieval and citations |
+| Optional AI synthesis | NVIDIA-compatible provider via server-only environment variables; extractive answer works without a key |
+| Privacy concepts | HttpOnly session cookie and owner-scoped API access; production group E2EE is not implemented |
 | Deployment target | Next.js on Vercel; FastAPI and managed PostgreSQL on a compatible host such as Render |
 
 ## Architecture
@@ -71,7 +72,7 @@ flowchart LR
   Web -. future: live sessions .-> Video[WebRTC / meeting provider]
 ```
 
-The intended first end-to-end workflow is account → notebook/document → document processing → cited question → quiz attempt. The prototype has not yet connected every step to authenticated APIs and durable storage.
+The implemented core path is account → personal notes/PDF → PDF page extraction → source-grounded question and citations. The quiz, planner, flashcard, group chat, and room modules still need deeper backend integration.
 
 ## Run locally
 
@@ -90,6 +91,8 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+Copy `.env.example` to `.env.local` in the project root. The default `BACKEND_URL` expects FastAPI on port 8000.
+
 ### Backend scaffold
 
 ```bash
@@ -101,15 +104,33 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
-The backend currently exposes a health route and prototype AI/WebSocket routes; it is not yet a complete production API. Provider credentials must be supplied through environment variables. **Never put API keys in source code, browser variables, screenshots, or commits.**
+The local API creates `backend/padhaku.db` automatically. Open [http://localhost:8000/docs](http://localhost:8000/docs) for the interactive API reference. Without a model key, answers quote matching pages directly. If using provider synthesis, set `NVIDIA_API_KEY` in the backend process environment. **Never put API keys in source code, browser variables, screenshots, or commits.**
+
+### Docker Compose
+
+From the project root, copy `.env.example` to `.env` and run:
+
+```bash
+docker compose --env-file .env -f backend/docker-compose.yml up --build
+```
+
+This starts FastAPI and PostgreSQL. The compose password default is for local development only; do not reuse it for a public deployment.
+
+## Deploy
+
+- **Web:** import this repository into Vercel as a Next.js project and set `BACKEND_URL` to the deployed FastAPI service URL.
+- **API + database:** use the included [Render blueprint](render.yaml), then set `FRONTEND_ORIGINS` to your deployed web origin and enable `COOKIE_SECURE=true`.
+- **Optional AI:** configure `NVIDIA_API_KEY`, `NVIDIA_BASE_URL`, and `NVIDIA_MODEL` as server-side secrets/environment variables on the API service.
+- PDF uploads are limited to 4 MB in this browser-to-API route to stay within common serverless request limits.
+- SQLite is suitable for local demonstration only; use managed PostgreSQL for deployments where data must survive service replacement.
 
 ## Roadmap
 
-1. Secure accounts, sessions, database migrations, and per-user access controls.
-2. Persist notebooks and notes; add private document upload and processing status.
-3. Build real document extraction, retrieval, AI answers with verified citations, and saved conversations.
-4. Generate and persist quizzes and review results from selected materials.
-5. Add collaboration with an explicit privacy model; treat production E2EE and video as separate security/engineering milestones.
+1. Add managed database migrations, account recovery, CSRF/rate-limit protections, and operational monitoring.
+2. Persist generated quizzes, planner tasks, flashcards, and tutor conversations.
+3. Improve retrieval with embeddings/vector search and document-version-aware cache behavior.
+4. Add collaboration with authenticated group membership and an explicit privacy model.
+5. Treat production E2EE and live video as separate security/engineering milestones.
 
 Read the [PRD](docs/PRD.md), [SRS](docs/SRS.md), [prototype assessment](docs/POC-and-current-state.md), and [gap analysis](docs/GAP-ANALYSIS.md) for requirements and implementation priorities.
 
@@ -127,6 +148,7 @@ Read the [PRD](docs/PRD.md), [SRS](docs/SRS.md), [prototype assessment](docs/POC
 - [Software Requirements Specification](docs/SRS.md)
 - [Proof of Concept and Current State](docs/POC-and-current-state.md)
 - [Gap Analysis and Delivery Plan](docs/GAP-ANALYSIS.md)
+- [Implementation Status](docs/IMPLEMENTATION-STATUS.md)
 
 ## License
 
