@@ -76,4 +76,4 @@ The first end-to-end acceptance path is complete only when a new account's own i
 
 ## 7. Current deployment blocker
 
-Vercel still serves the initial UI import at `b88849b`; the responsive fix at `42bd388` is pushed but has not redeployed because the Vercel project has no Git repository connection. The production `/api/me` route also returns HTTP 503 because `BACKEND_URL` is unset and FastAPI is not deployed. Account registration/login, notes, tasks, quizzes, PDF upload, and Q&A are blocked until the UI is updated and the backend/database are reachable. See [Testing Report](TESTING-REPORT.md).
+The responsive frontend is live on Vercel. The production `/api/me` route returns HTTP 503 because `BACKEND_URL` is unset and FastAPI is not deployed. Account registration/login, notes, tasks, quizzes, PDF upload, and Q&A are blocked until the backend/database are reachable. See [Testing Report](TESTING-REPORT.md).
