@@ -17,7 +17,7 @@ Students keep lecture notes, PDFs, revision tasks, and study-group conversations
 
 > **Product direction:** Padhaku is an AI-powered collaborative learning workspace that helps students make their own course material searchable, understandable, and easier to revise.
 
-The project is under active development. The local core learning path uses FastAPI with persisted user accounts, private notes, PDF text extraction, and source-page retrieval. The frontend is live on Vercel, but its production API is not connected yet; deployed login and data operations are currently unavailable. See [implementation status](docs/IMPLEMENTATION-STATUS.md) and the [testing report](docs/TESTING-REPORT.md) for verified boundaries.
+The project is under active development. The local core learning path uses FastAPI with persisted user accounts, private notes, PDF text extraction, and source-page retrieval. The initial frontend deployment is live, while responsive fixes pushed in commit `42bd388` are awaiting a Vercel rebuild because the project is not Git-connected. The production API is also not connected yet, so deployed login and data operations are unavailable. See [implementation status](docs/IMPLEMENTATION-STATUS.md) and the [testing report](docs/TESTING-REPORT.md) for verified boundaries.
 
 ## What you can explore
 

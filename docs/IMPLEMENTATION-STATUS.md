@@ -28,7 +28,7 @@
 - The available quiz set is still sample practice content; attempts are saved, but quizzes are not generated from a user's uploaded PDF. Flashcards and meeting screens are still prototype modules.
 - Group chat, true E2EE, WebRTC, shared whiteboard, and meeting integration are not active. The unsafe anonymous relay is closed.
 - There is no independently reviewed security assessment. A local API integration test now covers the core account-to-document Q&A path; it does not replace full browser, security, or production database testing.
-- The Next.js frontend is deployed to [Vercel](https://padhaku-cbpi1spcx-anuj-yadav-s-projects7.vercel.app/). The FastAPI API and database are not deployed or connected yet. `BACKEND_URL` is not configured on Vercel; production `/api/me` returns HTTP 503, so deployed login, notes, uploads, and Q&A cannot work end to end until an API service and database are provisioned and the URL is configured.
+- The Next.js frontend is initially deployed to [Vercel](https://padhaku-cbpi1spcx-anuj-yadav-s-projects7.vercel.app/), but Vercel still serves commit `b88849b`. The responsive fixes are pushed at `42bd388`; the Vercel project has no Git connection, so it has not rebuilt the latest commit. The FastAPI API and database are not deployed or connected yet. `BACKEND_URL` is not configured; production `/api/me` returns HTTP 503, so deployed login, notes, uploads, and Q&A cannot work end to end until an API service and database are provisioned and the URL is configured.
 - The standalone local integration checks are in `backend/tests/test_api_flow.py`; results and production smoke findings are in [TESTING-REPORT.md](TESTING-REPORT.md).
 
 ## Security boundary

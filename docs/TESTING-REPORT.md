@@ -6,7 +6,7 @@
 
 ## Summary
 
-The Next.js application builds, the public Vercel homepage loads, and the local FastAPI integration path passes. The deployed application is **not end to end yet**: its production API proxy returns HTTP 503 because `BACKEND_URL` is not configured and FastAPI/PostgreSQL are not deployed. Production authentication and saved study data therefore remain unavailable.
+The Next.js application builds, the public Vercel homepage loads, and the local FastAPI integration path passes. Responsive fixes and the report are pushed to GitHub commit `42bd388`, but the Vercel project is still serving the earlier import at `b88849b`; it has no Git repository connection, so the latest layout has not been rebuilt. The deployed application is **not end to end yet**: its production API proxy returns HTTP 503 because `BACKEND_URL` is not configured and FastAPI/PostgreSQL are not deployed. Production authentication and saved study data therefore remain unavailable.
 
 ## Checks run
 
@@ -15,7 +15,7 @@ The Next.js application builds, the public Vercel homepage loads, and the local 
 | Frontend | `npm run build` | PASS | Next.js 15 production build compiled, type validation completed, and all app/API routes generated. |
 | Frontend lint | `npm run lint` | BLOCKED | The repository's `next lint` script opens an interactive ESLint setup prompt because no ESLint configuration is present; the non-interactive command exits without linting. |
 | Local API | `python -m unittest discover -s tests -v` from `backend/` | PASS | One integration test exercises health, unauthenticated access, registration/session, profile, notes, tasks, quiz attempts, a text PDF upload, page-cited Q&A, cross-account note isolation, logout, and session invalidation using a temporary SQLite database. |
-| Production UI | Open Vercel homepage | PASS | Public homepage returned the Padhaku Smart Study Hub UI and navigation. |
+| Production UI | Open Vercel homepage | PARTIAL | The public homepage loads, but Vercel's production deployment still points to `b88849b`; commit `42bd388` with the responsive fixes is pushed but not deployed. Vercel project overview shows “Connect Git Repository.” |
 | Production API | `GET /api/me` on Vercel | BLOCKED | Returns `503` with `The Padhaku API is not reachable. Start the backend or configure BACKEND_URL.` |
 | Production auth/data | Registration, login, notes, PDF upload, Q&A | BLOCKED | These flows depend on the unavailable production API and were not represented as passing. |
 | Responsive layout | Code review of narrow/tablet breakpoints plus production build | PARTIAL | The landing nav now collapses below 1400px, the hero stacks at 900px, and dashboard module buttons use a two-column phone layout. An automated browser viewport sweep was not available in this environment. |
@@ -43,4 +43,4 @@ The Python test client emits a Starlette deprecation warning that the bundled `h
 3. Set API `FRONTEND_ORIGINS` to the production Vercel origin and `COOKIE_SECURE=true`.
 4. Redeploy and rerun registration → login → note persistence → PDF upload → page-cited Q&A → logout against production.
 
-Until these steps pass, present the Vercel link as a **frontend preview**, not as a fully working hosted learning service.
+Connect the Vercel project to `ianuj-yadav/Padhaku` (requires GitHub access approval) or manually deploy commit `42bd388`, then verify its production build. Until that is done, the public link still serves the older UI. Complete steps above before presenting it as a working hosted learning service.
