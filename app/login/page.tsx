@@ -110,14 +110,14 @@ export default function LoginPage({
       <div className="pointer-events-none fixed -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-indigo-300/40 blur-3xl" />
 
       {/* Top Navigation Bar */}
-      <header className="relative z-10 flex items-center justify-between px-6 sm:px-12 py-6">
+      <header className="relative z-10 flex items-center justify-between gap-2 px-3 sm:px-12 py-5 sm:py-6">
         <Link href="/" className="inline-flex items-center group" aria-label="Padhaku Home">
-          <div className="w-40 sm:w-44 text-[#080909]">
+          <div className="w-32 sm:w-44 text-[#080909]">
             <BrandLogo />
           </div>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Link
             href="/"
             className="btn-tactile inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#f7f8fa] text-xs font-medium border border-black/10 hover:bg-white"
@@ -125,14 +125,10 @@ export default function LoginPage({
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Studio Home</span>
           </Link>
-          <button
-            type="button"
-            onClick={() => handleCompleteAuth()}
-            className="btn-tactile inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#080909] text-white text-xs font-medium hover:bg-black/85 cursor-pointer"
-          >
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#080909] text-white text-xs font-medium whitespace-nowrap">
             <Sparkles className="w-3.5 h-3.5 text-[#c4b5fd]" />
             <span>Secure account sessions</span>
-          </button>
+          </div>
         </div>
       </header>
 
@@ -168,7 +164,7 @@ export default function LoginPage({
                 {
                   idx: 1,
                   label: 'Create a private study account',
-                  desc: 'Zero-plaintext credential verification + JWT refresh rotation',
+                  desc: 'Salted password hash with a server-managed session cookie',
                   active: authTab === 'login' || step === 1,
                   done: authTab === 'register' && step > 1,
                 },
@@ -181,8 +177,8 @@ export default function LoginPage({
                 },
                 {
                   idx: 3,
-                  label: 'Course, Semester & Subject Graph',
-                  desc: 'Initializes notebooks, pgvector namespace & E2EE study rooms',
+                  label: 'Course, semester & subjects',
+                  desc: 'Choose the subjects shown in your study workspace',
                   active: authTab === 'register' && step === 3,
                   done: false,
                 },
@@ -223,15 +219,15 @@ export default function LoginPage({
                 <Terminal className="w-3.5 h-3.5" />
                 <span>LIVE SECURITY TELEMETRY</span>
               </span>
-              <span className="text-[10px] text-white/50">TLS 1.3 + WebCrypto</span>
+              <span className="text-[10px] text-white/50">HTTPS in deployment</span>
             </div>
             <div className="text-white/75 truncate">
               <span className="text-white/40">Hash: </span>
               Passwords are protected with a salted, slow hash on the server.
             </div>
             <div className="text-purple-300 truncate">
-              <span className="text-white/40">E2EE: </span>
-              ECDH P-256 + AES-256-GCM (12B IV)
+              <span className="text-white/40">Study chat: </span>
+              Disabled pending authenticated membership and key exchange
             </div>
           </div>
         </div>

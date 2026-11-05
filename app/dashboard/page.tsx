@@ -171,7 +171,7 @@ function DashboardContent() {
           </div>
 
           {/* Global Search Bar (Section 4 Spec: "Search your notes, subjects, AI...") */}
-          <div className="relative flex-1 max-w-md">
+          <div className="relative min-w-0 flex-1 max-w-md">
             <Search className="w-4 h-4 text-black/45 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -231,7 +231,7 @@ function DashboardContent() {
         </div>
 
         {/* Module Navigation Bar */}
-        <div className="max-w-7xl mx-auto mt-3 flex items-center gap-1.5 overflow-x-auto pb-1">
+        <div className="dashboard-module-nav max-w-7xl mx-auto mt-3 grid grid-cols-2 sm:flex sm:flex-nowrap items-center gap-1.5 overflow-x-auto pb-1">
           {[
             { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
             { id: 'notebooks', label: 'My Notebooks', icon: BookOpen },
@@ -248,7 +248,7 @@ function DashboardContent() {
                 key={nav.id}
                 type="button"
                 onClick={() => setActiveTab(nav.id as HubTab)}
-                className={`btn-tactile px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                className={`btn-tactile min-w-0 w-full sm:w-auto justify-center sm:justify-start px-3 sm:px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 sm:shrink-0 cursor-pointer ${
                   active
                     ? 'bg-[#080909] text-white shadow'
                     : 'bg-[#f7f8fa] text-[#080909]/80 hover:bg-white border border-black/10'

@@ -1,12 +1,12 @@
 # PADHAKU — Gap Analysis and Delivery Plan
 
-**Purpose:** make the current prototype's distance from a functional presentation/deployment clear. This document is a recommendation for review; it does not authorize implementation before the owner says “nyx.”
+**Purpose:** record the remaining gap between the Padhaku prototype, the current Vercel frontend deployment, and a working end-to-end release. The testing report records checks already run.
 
 ## 1. Readiness snapshot
 
 | Capability | Current state | Needed for a trustworthy release |
 |---|---|---|
-| Product UI | Broad, visually developed prototype | Connect key screens to real flows; add empty/loading/error states. |
+| Product UI | Responsive landing/dashboard UI; responsive menu and phone tab layout updated | Continue device/browser checks and improve any remaining component-level overflow. |
 | Authentication | Demo OTP and fabricated login/session | Persistent accounts, password verification, secure sessions, logout, server-side identity. |
 | Data layer | SQL schema proposal plus seeded client data | Database connection, migrations, repositories, ownership constraints, backups. |
 | Notes | Mostly local state | CRUD API, owner checks, reliable reload behavior. |
@@ -15,8 +15,8 @@
 | Quiz | Seeded questions/local interaction | Generate from selected source, persist attempt/score, validate model output. |
 | Chat/E2EE | Local cryptography and demo relay/UI | Real participant identity/key distribution, auth/member enforcement, durable encrypted transport, lifecycle review—or defer E2EE claim. |
 | Video | Room UI and controls | Actual WebRTC/SFU or external meeting integration; signaling, permissions, network handling. |
-| Deployment | Partial package/compose files | Buildable services, production env/secrets, migrations, health/readiness, CORS/HTTPS, deployed smoke walkthrough. |
-| Source control | Workspace not detected as Git repo | Verify repository, review diffs/secrets, connect intended remote, then commit/push. |
+| Deployment | Vercel frontend is live; API and database are not connected | Deploy FastAPI + managed PostgreSQL, configure `BACKEND_URL` and exact frontend origin, then repeat production flow checks. |
+| Source control | Connected to the requested GitHub repository | Keep implementation and test report in sync with production deployments. |
 
 ## 2. Priority plan
 
@@ -74,6 +74,6 @@ The implementation should define and document exact variables after choosing pro
 
 The first end-to-end acceptance path is complete only when a new account's own inputs travel through frontend, authenticated backend, persistent database/file storage, document processing and retrieval, AI generation, and back to the correct client with verifiable citations—and remain available on a later login. A screen interaction, endpoint stub, table definition, mocked response, or service health string alone does not meet this definition.
 
-## 7. Review checkpoints
+## 7. Current deployment blocker
 
-Before implementation begins, the owner should review the PRD scope, SRS acceptance requirements, current-state findings, the intended meaning of CMAT, and whether E2EE is an immediate demo requirement or a later milestone. Work remains paused until the owner says **“nyx.”**
+The production `/api/me` route currently returns HTTP 503 because `BACKEND_URL` is unset and the FastAPI service has not been deployed. The UI can load, but account registration/login, notes, tasks, quizzes, PDF upload, and Q&A are blocked in production until the backend and database are reachable. See [Testing Report](TESTING-REPORT.md).

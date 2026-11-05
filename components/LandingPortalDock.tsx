@@ -16,44 +16,19 @@ import {
   Cpu,
   Lock,
   Search,
+  Menu,
 } from 'lucide-react';
 
 export default function LandingPortalDock() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
       {/* TOP WHITE GLOSSY NAVIGATION PILL */}
-      <header
-        style={{
-          position: 'fixed',
-          top: '18px',
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '0 16px',
-          pointerEvents: 'none',
-        }}
-      >
+      <header className="portal-header">
         <div
-          style={{
-            pointerEvents: 'auto',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '7px 8px 7px 20px',
-            borderRadius: '9999px',
-            background:
-              'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,249,253,0.86) 100%)',
-            boxShadow:
-              '0 12px 32px -4px rgba(18, 18, 48, 0.12), 0 2px 6px rgba(8, 9, 9, 0.05), inset 0 1.5px 0 0 rgba(255, 255, 255, 1)',
-            backdropFilter: 'blur(24px) saturate(190%)',
-            WebkitBackdropFilter: 'blur(24px) saturate(190%)',
-            border: '1px solid rgba(255, 255, 255, 0.95)',
-            maxWidth: '96vw',
-          }}
+          className="portal-dock"
         >
           {/* Left: Brand Identity */}
           <Link
@@ -97,13 +72,13 @@ export default function LandingPortalDock() {
 
           {/* Subtle Divider */}
           <div
-            className="hidden lg:block"
+            className="portal-nav-divider"
             style={{ width: '1px', height: '20px', backgroundColor: 'rgba(8,9,9,0.1)', flexShrink: 0 }}
           />
 
           {/* Center: Single-Line Concise Navigation */}
           <nav
-            className="hidden lg:inline-flex"
+            className="portal-desktop-nav"
             style={{ alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', fontSize: '12.5px' }}
           >
             {[
@@ -158,23 +133,15 @@ export default function LandingPortalDock() {
 
           {/* Subtle Divider */}
           <div
-            className="hidden lg:block"
+            className="portal-nav-divider"
             style={{ width: '1px', height: '20px', backgroundColor: 'rgba(8,9,9,0.1)', flexShrink: 0 }}
           />
 
           {/* Right: Perfectly Contained Action Pills */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-            }}
-          >
+          <div className="portal-actions">
             <Link
               href="/login"
-              className="btn-tactile"
+              className="portal-auth-action btn-tactile"
               style={{
                 height: '36px',
                 padding: '0 15px',
@@ -197,7 +164,7 @@ export default function LandingPortalDock() {
 
             <Link
               href="/register"
-              className="btn-tactile"
+              className="portal-auth-action btn-tactile"
               style={{
                 height: '36px',
                 padding: '0 15px',
@@ -236,12 +203,39 @@ export default function LandingPortalDock() {
               }}
             >
               <Sparkles className="w-3.5 h-3.5 text-[#c4b5fd] shrink-0" />
-              <span>Dashboard</span>
+              <span className="portal-dashboard-label">Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5 text-white shrink-0" />
             </Link>
+
+            <button
+              type="button"
+              className="portal-menu-toggle btn-tactile"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="portal-mobile-menu"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
         </div>
       </header>
+
+      {mobileMenuOpen && (
+        <div id="portal-mobile-menu" className="portal-mobile-menu">
+          <nav aria-label="Main navigation" className="portal-mobile-links">
+            <Link href="/dashboard?tab=notebooks" onClick={() => setMobileMenuOpen(false)}>Notebooks &amp; Notes</Link>
+            <Link href="/dashboard?tab=rag" onClick={() => setMobileMenuOpen(false)}>PDF Search &amp; Study Q&amp;A</Link>
+            <Link href="/dashboard?tab=chat" onClick={() => setMobileMenuOpen(false)}>Study Groups · planned</Link>
+            <Link href="/dashboard?tab=rooms" onClick={() => setMobileMenuOpen(false)}>Live Study Rooms · planned</Link>
+            <button type="button" onClick={() => { setDrawerOpen(true); setMobileMenuOpen(false); }}>Project architecture</button>
+          </nav>
+          <div className="portal-mobile-actions">
+            <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+            <Link href="/register" onClick={() => setMobileMenuOpen(false)}>Sign up</Link>
+          </div>
+        </div>
+      )}
 
       {/* Expandable White Glossy Architecture & Module Modal */}
       {drawerOpen && (
