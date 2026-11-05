@@ -17,7 +17,7 @@ Students keep lecture notes, PDFs, revision tasks, and study-group conversations
 
 > **Product direction:** Padhaku is an AI-powered collaborative learning workspace that helps students make their own course material searchable, understandable, and easier to revise.
 
-The project is under active development. The local core learning path uses FastAPI with persisted user accounts, private notes, PDF text extraction, and source-page retrieval. The initial frontend deployment is live, while responsive fixes pushed in commit `42bd388` are awaiting a Vercel rebuild because the project is not Git-connected. The production API is also not connected yet, so deployed login and data operations are unavailable. See [implementation status](docs/IMPLEMENTATION-STATUS.md) and the [testing report](docs/TESTING-REPORT.md) for verified boundaries.
+The project is under active development. The local core learning path uses FastAPI with persisted user accounts, private notes, PDF text extraction, and source-page retrieval. The frontend and responsive fixes are live on Vercel. The production API is not connected yet, so deployed login and data operations are unavailable. See [implementation status](docs/IMPLEMENTATION-STATUS.md) and the [testing report](docs/TESTING-REPORT.md) for verified boundaries.
 
 ## What you can explore
 
@@ -128,7 +128,7 @@ The backend integration test uses a disposable SQLite database. Current local an
 
 ## Deploy
 
-- **Live frontend:** [padhaku-cbpi1spcx-anuj-yadav-s-projects7.vercel.app](https://padhaku-cbpi1spcx-anuj-yadav-s-projects7.vercel.app/)
+- **Live frontend:** [padhaku-three.vercel.app](https://padhaku-three.vercel.app/)
 - **Web:** import this repository into Vercel as a Next.js project and set `BACKEND_URL` to the deployed FastAPI service URL.
 - **API + database:** use the included [Render blueprint](render.yaml), then set `FRONTEND_ORIGINS` to your deployed web origin and enable `COOKIE_SECURE=true`.
 - **Optional AI:** configure `NVIDIA_API_KEY`, `NVIDIA_BASE_URL`, and `NVIDIA_MODEL` as server-side secrets/environment variables on the API service.
